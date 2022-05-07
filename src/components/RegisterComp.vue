@@ -1,11 +1,11 @@
 <template>
   <v-app>
-    <v-content>
+    <v-main>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" md="8" sm="8">
             <v-card class="elevation-12">
-              <v-window v-model="step">
+              <v-window>
                 <v-row class="fill-height">
                   <v-col cols="12" md="4" class="teal accent-3">
                     <v-card-text class="white--text mt-12">
@@ -30,13 +30,12 @@
                       <h4 class="text-center mlt-4">
                         Por favor, insira seus dados para o cadastro
                       </h4>
-                      <v-form>
+                      <v-form v-model="valid" @submit.prevent="register">
                         <v-text-field
                           label="Nome"
                           v-model="name"
                           :rules="nameRules"
                           prepend-icon="person"
-                          @keyup.native="validate"
                           name="name"
                           type="text"
                           required
@@ -47,7 +46,6 @@
                           v-model="email"
                           :rules="emailRules"
                           prepend-icon="email"
-                          @keyup.native="validate"
                           name="email"
                           type="text"
                           required
@@ -60,15 +58,15 @@
                           prepend-icon="lock"
                           v-model="password"
                           :rules="passwordRules"
-                          @keyup.native="validate"
                           type="password"
                           color="teal accent-3"
                           required
                         />
                       </v-form>
+                      <span v-if="registerError" class="red--text" >E-mail já cadastrado</span>
                     </v-card-text>
                     <div class="text-center mt-3 mb-5">
-                      <v-btn rounded color="teal accent-3" @click="register" dark>
+                      <v-btn rounded color="teal accent-3" @click="register" dark :loading="registeringIn">
                         Cadastrar
                       </v-btn>
                     </div>
@@ -79,7 +77,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -90,8 +88,22 @@
   export default {
     data() {
       return {
+        name: '',
         email: '',
         password: '',
+        valid: false,
+        nameRules: [
+          v => !!v || 'Nome é obrigatório',
+          v => v.length <= 20 || 'Nome deve ter no máximo 20 caracteres',
+        ],
+        emailRules: [
+          v => !!v || 'E-mail é obrigatório',
+          v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+        ],
+        passwordRules: [
+          v => !!v || 'Senha é obrigatória',
+          v => v.length >= 6 || 'Senha deve ter no mínimo 6 caracteres',
+        ],
       }
     },
     props: {
@@ -99,16 +111,25 @@
     },
     computed: {
       ...mapState([
-        'loggingIn',
-        'loginError',
+        'registeringIn',
+        'registerError',
       ])
     },
     methods: {
       ...mapActions([
-        'doLogin'
+        'doRegister',
       ]),
       login() {
         this.$router.push('/login');
+      },
+      register() {
+        if(this.valid) {
+          this.doRegister({
+            email: this.email,
+            password: this.password,
+            name: this.name,
+          });
+        }
       },
     }
   }

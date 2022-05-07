@@ -9,10 +9,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    user: null,
     token: null,
     loggingIn: false,
     loginError: false,
-    user: null,
+    registeringIn: false,
+    registerError: false,
   },
   mutations: {
     loginStart: (state) => { 
@@ -22,6 +24,14 @@ export default new Vuex.Store({
     loginStop: (state) => {
       state.loggingIn = false;
       state.loginError = true;
+    },
+    registerStart: (state) => {
+      state.registeringIn = true;
+      state.registerError = false;
+    },
+    registerStop: (state) => {
+      state.registeringIn = false;
+      state.registerError = true;
     },
     updateToken: (state, token) => {
       state.token = token;
@@ -51,6 +61,23 @@ export default new Vuex.Store({
       })
       .catch(() => {
         commit('loginStop');
+        commit('updateToken', null);
+        commit('updateUser', null);
+      })
+    },
+    doRegister({ commit }, registerData) {
+      commit('registerStart');
+      axios.post(`${URL}/users`, {
+        ...registerData
+      }).then(response => {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        commit('registerStop', null);
+        commit('updateToken', response.data.token);
+        commit('updateUser', response.data.user);
+        router.push('/users');
+      }).catch(() => {
+        commit('registerStop');
         commit('updateToken', null);
         commit('updateUser', null);
       })
