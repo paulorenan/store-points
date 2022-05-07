@@ -3,50 +3,62 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import router from '../router';
 
+const URL = 'https://store-points-back.herokuapp.com/api'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    accessToken: null,
+    token: null,
     loggingIn: false,
-    loginError: null
+    loginError: null,
+    user: null,
   },
   mutations: {
-    loginStart: state => state.loggingIn = true,
+    loginStart: (state) => state.loggingIn = true,
     loginStop: (state, errorMessage) => {
       state.loggingIn = false;
       state.loginError = errorMessage;
     },
-    updateAccessToken: (state, accessToken) => {
-      state.accessToken = accessToken;
+    updateToken: (state, token) => {
+      state.token = token;
+    },
+    updateUser: (state, user) => {
+      state.user = user;
     },
     logout: (state) => {
-      state.accessToken = null;
+      state.token = null;
+      state.user = null;
     }
   },
   actions: {
     doLogin({ commit }, loginData) {
       commit('loginStart');
 
-      axios.post('https://reqres.in/api/login', {
+      axios.post(`${URL}/login`, {
         ...loginData
       })
       .then(response => {
-        localStorage.setItem('accessToken', response.data.token);
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         commit('loginStop', null);
-        commit('updateAccessToken', response.data.token);
+        commit('updateToken', response.data.token);
+        commit('updateUser', response.data.user);
         router.push('/users');
       })
       .catch(error => {
         commit('loginStop', error.response.data.error);
-        commit('updateAccessToken', null);
+        commit('updateToken', null);
+        commit('updateUser', null);
       })
     },
     fetchAccessToken({ commit }) {
-      commit('updateAccessToken', localStorage.getItem('accessToken'));
+      commit('updateToken', localStorage.getItem('token'));
+      commit('updateUser', JSON.parse(localStorage.getItem('user')));
     },
     logout({ commit }) {
-      localStorage.removeItem('accessToken');
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       commit('logout');
       router.push('/login');
     }
