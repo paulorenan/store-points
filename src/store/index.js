@@ -11,14 +11,17 @@ export default new Vuex.Store({
   state: {
     token: null,
     loggingIn: false,
-    loginError: null,
+    loginError: false,
     user: null,
   },
   mutations: {
-    loginStart: (state) => state.loggingIn = true,
-    loginStop: (state, errorMessage) => {
+    loginStart: (state) => { 
+      state.loggingIn = true;
+      state.loginError = false;
+    },
+    loginStop: (state) => {
       state.loggingIn = false;
-      state.loginError = errorMessage;
+      state.loginError = true;
     },
     updateToken: (state, token) => {
       state.token = token;
@@ -46,8 +49,8 @@ export default new Vuex.Store({
         commit('updateUser', response.data.user);
         router.push('/users');
       })
-      .catch(error => {
-        commit('loginStop', error.response.data.error);
+      .catch(() => {
+        commit('loginStop');
         commit('updateToken', null);
         commit('updateUser', null);
       })

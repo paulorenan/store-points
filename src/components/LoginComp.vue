@@ -1,11 +1,11 @@
 <template>
   <v-app>
-    <v-content>
+    <v-main>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" md="8" sm="8">
             <v-card class="elevation-12">
-              <v-window v-model="step">
+              <v-window>
                 <v-row>
                   <v-col cols="12" md="8">
                     <v-card-text class="mt-12">
@@ -15,17 +15,17 @@
                       <h4 class="text-center mlt-4">
                         Por favor, coloque seus dados de acesso
                       </h4>
-                      <v-form>
+                      <v-form v-model="valid" @submit.prevent="loginSubmit">
                         <v-text-field
                           label="E-mail"
                           v-model="email"
                           :rules="emailRules"
                           prepend-icon="email"
-                          @keyup.native="validate"
                           name="email"
                           type="text"
                           required
                           color="teal accent-3"
+                          focus="true"
                         />
                         <v-text-field
                           id="password"
@@ -34,15 +34,15 @@
                           prepend-icon="lock"
                           v-model="password"
                           :rules="passwordRules"
-                          @keyup.native="validate"
                           type="password"
                           color="teal accent-3"
                           required
                         />
                       </v-form>
+                      <span v-if="loginError" class="red--text" >Email ou senha incorretos</span>
                     </v-card-text>
                     <div class="text-center mt-3 mb-5">
-                      <v-btn rounded color="teal accent-3" @click="login" dark>
+                      <v-btn rounded color="teal accent-3" @click="loginSubmit" dark :loading="loggingIn">
                         Login
                       </v-btn>
                     </div>
@@ -57,7 +57,7 @@
                       </h5>
                     </v-card-text>
                     <div class="text-center mt-3 mb-9">
-                      <v-btn rounded outlined="" dark>
+                      <v-btn rounded outlined="" dark @click="register">
                           Cadastre-se
                       </v-btn>
                     </div>
@@ -68,7 +68,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -95,7 +95,14 @@
       return {
         email: '',
         password: '',
-        step: 1,
+        emailRules: [
+          v => !!v || 'E-mail é obrigatório',
+          v => /.+@.+\..+/.test(v) || 'E-mail inválido',
+        ],
+        passwordRules: [
+          v => !!v || 'Senha é obrigatória'
+        ],
+        valid: false,
       }
     },
     props: {
@@ -112,10 +119,15 @@
         'doLogin'
       ]),
       loginSubmit() {
-        this.doLogin({
-          email: this.email,
-          password: this.password
-        });
+        if(this.valid) {
+          this.doLogin({
+            email: this.email,
+            password: this.password
+          });
+        }
+      },
+      register() {
+        this.$router.push('/register');
       }
     }
   }

@@ -17,7 +17,7 @@
                       </h5>
                     </v-card-text>
                     <div class="text-center mt-3 mb-2">
-                      <v-btn rounded outlined="" dark>
+                      <v-btn rounded outlined="" dark @click="login">
                         Login
                       </v-btn>
                     </div>
@@ -83,20 +83,6 @@
   </v-app>
 </template>
 
-<!-- <template>
-  <div class="login">
-    <div v-if="loggingIn" class="container-loading">
-      <img src="/loading.gif" alt="Loading Icon">
-    </div>
-    <p v-if="loginError">{{ loginError }}</p>
-    <form @submit.prevent="loginSubmit">
-      <input type="email" placeholder="E-Mail" v-model="email">
-      <input type="password" placeholder="Password" v-model="password">
-      <button type="submit">Login</button>
-    </form>
-  </div>
-</template> -->
-
 <script>
   import { mapState, mapActions } from 'vuex';
   import '../styles/Login.css';
@@ -106,7 +92,6 @@
       return {
         email: '',
         password: '',
-        step: 1,
       }
     },
     props: {
@@ -122,12 +107,9 @@
       ...mapActions([
         'doLogin'
       ]),
-      loginSubmit() {
-        this.doLogin({
-          email: this.email,
-          password: this.password
-        });
-      }
+      login() {
+        this.$router.push('/login');
+      },
     }
   }
 </script>
