@@ -5,7 +5,6 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import store from './store'
 import router from './router'
-import './styles/Login.css'
 
 Vue.config.productionTip = false
 

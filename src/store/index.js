@@ -21,17 +21,17 @@ export default new Vuex.Store({
       state.loggingIn = true;
       state.loginError = false;
     },
-    loginStop: (state) => {
+    loginStop: (state, error) => {
       state.loggingIn = false;
-      state.loginError = true;
+      state.loginError = error;
     },
     registerStart: (state) => {
       state.registeringIn = true;
       state.registerError = false;
     },
-    registerStop: (state) => {
+    registerStop: (state, error) => {
       state.registeringIn = false;
-      state.registerError = true;
+      state.registerError = error;
     },
     updateToken: (state, token) => {
       state.token = token;
@@ -54,13 +54,13 @@ export default new Vuex.Store({
       .then(response => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
-        commit('loginStop', null);
+        commit('loginStop', false);
         commit('updateToken', response.data.token);
         commit('updateUser', response.data.user);
-        router.push('/users');
+        router.push('/products');
       })
       .catch(() => {
-        commit('loginStop');
+        commit('loginStop', true);
         commit('updateToken', null);
         commit('updateUser', null);
       })
@@ -72,12 +72,12 @@ export default new Vuex.Store({
       }).then(response => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
-        commit('registerStop', null);
+        commit('registerStop', false);
         commit('updateToken', response.data.token);
         commit('updateUser', response.data.user);
-        router.push('/users');
+        router.push('/products');
       }).catch(() => {
-        commit('registerStop');
+        commit('registerStop', true);
         commit('updateToken', null);
         commit('updateUser', null);
       })

@@ -22,7 +22,7 @@
                           :rules="emailRules"
                           prepend-icon="email"
                           name="email"
-                          type="text"
+                          type="email"
                           required
                           color="teal accent-3"
                           focus="true"
@@ -72,20 +72,6 @@
   </v-app>
 </template>
 
-<!-- <template>
-  <div class="login">
-    <div v-if="loggingIn" class="container-loading">
-      <img src="/loading.gif" alt="Loading Icon">
-    </div>
-    <p v-if="loginError">{{ loginError }}</p>
-    <form @submit.prevent="loginSubmit">
-      <input type="email" placeholder="E-Mail" v-model="email">
-      <input type="password" placeholder="Password" v-model="password">
-      <button type="submit">Login</button>
-    </form>
-  </div>
-</template> -->
-
 <script>
   import { mapState, mapActions } from 'vuex';
   import '../styles/Login.css';
@@ -132,7 +118,3 @@
     }
   }
 </script>
-
-<style>
-@import '../styles/Login.css';
-</style>

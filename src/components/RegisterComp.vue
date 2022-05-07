@@ -47,7 +47,7 @@
                           :rules="emailRules"
                           prepend-icon="email"
                           name="email"
-                          type="text"
+                          type="email"
                           required
                           color="teal accent-3"
                         />
