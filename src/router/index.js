@@ -14,6 +14,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue')
     },
     {
+      path: '/register',
+      name: 'register',
+      component: () => import(/* webpackChunkName: "register" */ '../views/RegisterView.vue')
+    },
+    {
       path: '/users',
       name: 'users',
       component: () => import(/* webpackChunkName: "about" */ '../views/UsersView.vue')
@@ -28,13 +33,13 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   store.dispatch('fetchAccessToken');
   if(store.state.token) {
-    if(to.name === 'login') {
+    if(to.name === 'login' || to.name === 'register') {
       next('/users');
     } else {
       next();
     }
   } else {
-    if(to.name === 'login') {
+    if(to.name === 'login' || to.name === 'register') {
       next();
     } else {
       next('/login');
