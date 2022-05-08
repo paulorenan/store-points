@@ -1,6 +1,7 @@
 <template>
   <v-app-bar
     color="#42b983"
+    fixed
   >
       <v-menu
       bottom
@@ -92,6 +93,7 @@
 import { mapActions, mapState } from 'vuex';
   export default {
     data: () => ({
+      admin: false,
     }),
     computed: {
       ...mapState([
