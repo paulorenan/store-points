@@ -77,7 +77,7 @@
       <span>
       {{(user.coins)}}
       </span>
-      <v-icon>mdi-bitcoin</v-icon>
+      <v-icon>mdi-cash</v-icon>
     </v-toolbar-items>
     <v-spacer/>
     <v-btn

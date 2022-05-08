@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import router from '../router';
 
-const URL = 'https://store-points-back.herokuapp.com/api'
+const URL = 'https://store-points-back.herokuapp.com/api';
+const CLIENT_ID = process.env.VUE_APP_CLIENT_ID;
 
 Vue.use(Vuex)
 
@@ -100,6 +101,22 @@ export default new Vuex.Store({
       }).catch(() => {
         commit('updateProducts', []);
       })
-    }
+    },
+    // eslint-disable-next-line no-unused-vars
+    createProduct({ commit }, product) {
+      axios.defaults.headers.common['Authorization'] = `Client-ID ${CLIENT_ID}`;
+      axios.post('https://api.imgur.com/3/upload', product.image).then(response => {
+        axios.defaults.headers.common['Authorization'] = this.state.token;
+        axios.post(`${URL}/products`, {
+          name: product.name,
+          price: product.price,
+          image: response.data.data.link,
+        }).then(()=> {
+          this.dispatch('fetchProducts');
+        });
+      }).catch((err) => {
+        console.log('imgur', err.response);
+      });
+    },
   }
 })
