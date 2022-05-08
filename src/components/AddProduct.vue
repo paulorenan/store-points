@@ -44,7 +44,7 @@
               <v-col cols="12">
                 <v-file-input
                   :rules="rules"
-                  accept="image/png, image/jpeg, image/bmp"
+                  accept="image/png, image/jpeg, image/bmp image/webp"
                   placeholder="Adicionar imagem"
                   prepend-icon="mdi-camera"
                   label="Imagem"
@@ -81,8 +81,8 @@ import { mapActions } from 'vuex';
   export default {
     data: () => ({
       dialog: false,
-      name: 'NFT do Ney',
-      price: 6000,
+      name: '',
+      price: null,
       image: null,
       nameRules: [
         v => !!v || 'Nome é obrigatório',
