@@ -15,6 +15,7 @@ export default new Vuex.Store({
     loginError: false,
     registeringIn: false,
     registerError: false,
+    products: [],
   },
   mutations: {
     loginStart: (state) => { 
@@ -42,7 +43,10 @@ export default new Vuex.Store({
     logout: (state) => {
       state.token = null;
       state.user = null;
-    }
+    },
+    updateProducts: (state, products) => {
+      state.products = products;
+    },
   },
   actions: {
     doLogin({ commit }, loginData) {
@@ -50,16 +54,14 @@ export default new Vuex.Store({
 
       axios.post(`${URL}/login`, {
         ...loginData
-      })
-      .then(response => {
+      }).then(response => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
         commit('loginStop', false);
         commit('updateToken', response.data.token);
         commit('updateUser', response.data.user);
         router.push('/products');
-      })
-      .catch(() => {
+      }).catch(() => {
         commit('loginStop', true);
         commit('updateToken', null);
         commit('updateUser', null);
@@ -91,6 +93,13 @@ export default new Vuex.Store({
       localStorage.removeItem('user');
       commit('logout');
       router.push('/login');
+    },
+    fetchProducts({ commit }) {
+      axios.get(`${URL}/products`).then(response => {
+        commit('updateProducts', response.data.products);
+      }).catch(() => {
+        commit('updateProducts', []);
+      })
     }
   }
 })

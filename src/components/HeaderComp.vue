@@ -1,15 +1,55 @@
 <template>
   <v-app-bar
     color="#42b983"
-    fixed
   >
+      <v-menu
+      bottom
+      left
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-app-bar-nav-icon
+          icon
+          v-bind="attrs"
+          v-on="on"
+          v-if="!$vuetify.breakpoint.smAndUp"
+        />
+      </template>
+      <v-list>
+        <v-list-item-group>
+          <v-list-item
+            :to="{ name: 'products' }"
+            class="btn"
+            outlined
+            text
+          >
+            Produtos  
+          </v-list-item>
+          <v-list-item
+            :to="{ name: 'login' }"
+            class="btn"
+            outlined
+            text
+          >
+            Meus Pedidos
+          </v-list-item>
+          <v-list-item
+            v-if="admin"  
+            :to="{ name: 'register' }"
+            class="btn"
+            outlined
+            text
+          >
+            Usuarios
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-menu>
     <v-toolbar-title>Loja de Pontos</v-toolbar-title>
     <v-toolbar-items class="ml-3"
       v-if="$vuetify.breakpoint.smAndUp"
     >
       <v-btn
         :to="{ name: 'products' }"
-        class="btn"
         outlined
         text
       >
@@ -17,7 +57,6 @@
       </v-btn>
       <v-btn
         :to="{ name: 'login' }"
-        class="btn"
         outlined
         text
       >
@@ -26,7 +65,6 @@
       <v-btn
         v-if="admin"
         :to="{ name: 'register' }"
-        class="btn"
         outlined
         text
       >
@@ -34,20 +72,13 @@
       </v-btn>
     </v-toolbar-items>
     <v-spacer/>
-    <div class="mobile">
-      <v-btn
-        icon
-        @click="$router.push('/products')"
-      >
-        <v-icon>mdi-home</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click="$router.push('/products')"
-      >
-        <v-icon>mdi-cart</v-icon>
-      </v-btn>
-    </div>
+    <v-toolbar-items class="coin">
+      <span>
+      {{(user.coins)}}
+      </span>
+      <v-icon>mdi-bitcoin</v-icon>
+    </v-toolbar-items>
+    <v-spacer/>
     <v-btn
       icon
       @click="logout"
@@ -61,9 +92,6 @@
 import { mapActions, mapState } from 'vuex';
   export default {
     data: () => ({
-      drawer: false,
-      group: null,
-      admin: false,
     }),
     computed: {
       ...mapState([
@@ -87,8 +115,8 @@ import { mapActions, mapState } from 'vuex';
 </script>
 
 <style>
-.btn {
-  margin-left: 10px;
-  background-color: #42b983;
-}
+  .coin {
+    display: flex;
+    align-items: center;
+  }
 </style>
