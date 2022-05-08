@@ -74,7 +74,6 @@
 
 <script>
   import { mapState, mapActions } from 'vuex';
-  import '../styles/Login.css';
 
   export default {
     data() {
