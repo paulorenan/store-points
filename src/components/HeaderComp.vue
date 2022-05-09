@@ -35,7 +35,7 @@
           </v-list-item>
           <v-list-item
             v-if="admin"  
-            :to="{ name: 'login' }"
+            :to="{ name: 'users' }"
             class="btn"
             outlined
             text
@@ -65,7 +65,7 @@
       </v-btn>
       <v-btn
         v-if="admin"
-        :to="{ name: 'login' }"
+        :to="{ name: 'users' }"
         outlined
         text
       >

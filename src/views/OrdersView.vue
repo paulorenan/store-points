@@ -62,7 +62,7 @@ export default {
 .orderTable {
   width: 100%;
   max-width: 600px;
-  border-radius: 5%;
+  border-radius: 10px;
 }
 .orderCont {
   display: flex;
