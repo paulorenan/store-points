@@ -19,7 +19,7 @@
     </v-snackbar>
     <v-main class="grey lighten-2">
       <HeaderComp />
-      <v-container fluid class="mt-16">
+      <v-container fluid>
         <v-row>
           <v-col cols="12" v-if="admin" class="mt-5">
             <AddProduct :snackbar="snackbarMessage" />

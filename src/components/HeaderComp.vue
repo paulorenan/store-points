@@ -1,7 +1,7 @@
 <template>
   <v-app-bar
     color="teal accent-3"
-    fixed
+    app
   >
       <v-menu
       bottom

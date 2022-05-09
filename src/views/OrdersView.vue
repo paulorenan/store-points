@@ -2,7 +2,7 @@
   <v-app>
     <v-main class="grey lighten-2">
       <HeaderComp />
-      <v-container class="mt-16 orderCont">
+      <v-container class="mt-3 orderCont">
         <v-simple-table class="orderTable">
           <thead>
             <tr>
