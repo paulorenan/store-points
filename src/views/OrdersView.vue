@@ -6,7 +6,7 @@
         <v-simple-table class="orderTable">
           <thead>
             <tr>
-              <th>Nome</th>
+              <th>Produto</th>
               <th>Pontos</th>
               <th>Dia</th>
             </tr>

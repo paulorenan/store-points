@@ -29,13 +29,18 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ '../views/OrdersView.vue')
     },
     {
+      path: '/users',
+      name: 'users',
+      component: () => import(/* webpackChunkName: "about" */ '../views/UsersView.vue')
+    },
+    {
       path: '*',
       redirect: '/login'
     }
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   if(store.state.load === false) {
     store.dispatch('fetchLoading')
   }
@@ -43,6 +48,12 @@ router.beforeEach((to, from, next) => {
   if(store.state.token) {
     if(to.name === 'login' || to.name === 'register') {
       next('/products');
+    } else if (store.state.user.role !== 'admin') {
+      if (to.name === 'users') {
+        next('/products');
+      } else {
+        next();
+      }
     } else {
       next();
     }
@@ -53,7 +64,6 @@ router.beforeEach((to, from, next) => {
       next('/login');
     }
   }
-  next();
-});
+})
 
 export default router;

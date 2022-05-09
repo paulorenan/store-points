@@ -19,22 +19,24 @@
     </v-snackbar>
     <v-main class="grey lighten-2">
       <HeaderComp />
-      <v-row class="mt-16">
-        <v-col cols="12" v-if="admin" class="mt-5">
-          <AddProduct :snackbar="snackbarMessage" />
-        </v-col>
-        <v-col
-          cols="12"
-          md="3"
-          lg="3"
-          sm="6"
-          class="mx-auto mt-1 mb-5"
-          v-for="product in products"
-          :key="product.id"
-        >
-          <ProductCard :product="product" :snackbar="snackbarMessage" />
-        </v-col>
-      </v-row>
+      <v-container fluid class="mt-16">
+        <v-row>
+          <v-col cols="12" v-if="admin" class="mt-5">
+            <AddProduct :snackbar="snackbarMessage" />
+          </v-col>
+          <v-col
+            cols="12"
+            md="3"
+            lg="3"
+            sm="6"
+            class="mx-auto mt-1 mb-5"
+            v-for="product in products"
+            :key="product.id"
+          >
+            <ProductCard :product="product" :snackbar="snackbarMessage" />
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
