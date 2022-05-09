@@ -66,6 +66,7 @@ import axios from 'axios';
       product: Object,
       user: Object,
       money: Boolean,
+      snackbar: Function,
     },
     computed: {
       ...mapState([
@@ -85,9 +86,11 @@ import axios from 'axios';
           this.fetchLoading();
           this.dialog = false;
           this.loading = false;
+          this.snackbar('Compra realizada com sucesso!', 'success');
         }).catch((err) => {
           console.log(err);
           this.loading = false;
+          this.snackbar('Não foi possível realizar a compra!', 'error');
         });
       },
     },

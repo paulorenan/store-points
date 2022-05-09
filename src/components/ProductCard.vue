@@ -19,7 +19,7 @@
       <v-icon>mdi-cash</v-icon>
     </v-card-text>
     <v-card-actions class="justify-center">
-      <BuyProduct :product="product" :user="user" :money="noMoney" />
+      <BuyProduct :product="product" :user="user" :money="noMoney" :snackbar="snackbar"/>
     </v-card-actions>
   </v-card>          
 </template>
@@ -33,6 +33,7 @@ export default {
 },
   props: {
     product: Object,
+    snackbar: Function,
   },
   computed: {
     ...mapState([

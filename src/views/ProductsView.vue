@@ -1,10 +1,27 @@
 <template>
   <v-app>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="5000"
+      :color="color"
+    >
+      {{ message }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="white"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Fechar
+        </v-btn>
+      </template>
+    </v-snackbar>
     <v-main class="grey lighten-2">
       <HeaderComp />
       <v-row class="mt-16">
         <v-col cols="12" v-if="admin" class="mt-5">
-          <AddProduct />
+          <AddProduct :snackbar="snackbarMessage" />
         </v-col>
         <v-col
           cols="12"
@@ -15,7 +32,7 @@
           v-for="product in products"
           :key="product.id"
         >
-          <ProductCard :product="product" />
+          <ProductCard :product="product" :snackbar="snackbarMessage" />
         </v-col>
       </v-row>
     </v-main>
@@ -38,6 +55,9 @@ export default {
     return {
       drawer: false,
       admin: false,
+      snackbar: false,
+      message: '',
+      color: '',
     }
   },
   computed: {
@@ -54,6 +74,11 @@ export default {
       if(this.user.role === 'admin') {
         this.admin = true;
       }
+    },
+    snackbarMessage(message, color) {
+      this.message = message;
+      this.color = color;
+      this.snackbar = true;
     },
   },
   mounted() {
