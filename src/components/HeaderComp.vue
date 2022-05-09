@@ -26,7 +26,7 @@
             Produtos  
           </v-list-item>
           <v-list-item
-            :to="{ name: 'login' }"
+            :to="{ name: 'orders' }"
             class="btn"
             outlined
             text
@@ -35,7 +35,7 @@
           </v-list-item>
           <v-list-item
             v-if="admin"  
-            :to="{ name: 'register' }"
+            :to="{ name: 'login' }"
             class="btn"
             outlined
             text
@@ -57,7 +57,7 @@
         Produtos
       </v-btn>
       <v-btn
-        :to="{ name: 'login' }"
+        :to="{ name: 'orders' }"
         outlined
         text
       >
@@ -65,7 +65,7 @@
       </v-btn>
       <v-btn
         v-if="admin"
-        :to="{ name: 'register' }"
+        :to="{ name: 'login' }"
         outlined
         text
       >

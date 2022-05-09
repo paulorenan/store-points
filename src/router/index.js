@@ -24,6 +24,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ '../views/ProductsView.vue')
     },
     {
+      path: '/orders',
+      name: 'orders',
+      component: () => import(/* webpackChunkName: "about" */ '../views/OrdersView.vue')
+    },
+    {
       path: '*',
       redirect: '/login'
     }
