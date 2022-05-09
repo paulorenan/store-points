@@ -83,6 +83,9 @@ import { mapActions, mapState } from 'vuex';
 import axios from 'axios';
 
   export default {
+    props: {
+      snackbar: Function,
+    },
     data: () => ({
       dialog: false,
       name: '',
@@ -94,6 +97,7 @@ import axios from 'axios';
       ],
       priceRules: [
         v => !!v || 'Preço é obrigatório',
+        v => /^\d+$/.test(v) || 'Preço deve ser um número inteiro',
       ],
       rules: [
         v => !!v || 'Imagem é obrigatória',
@@ -128,11 +132,16 @@ import axios from 'axios';
               this.price = null;
               this.image = null;
               this.loading = false;
+              this.snackbar('Produto adicionado com sucesso', 'success');
             }).catch(error => {
               console.log('erro api',error);
+              this.loading = false;
+              this.snackbar('Erro ao adicionar produto', 'error');
             });
           }).catch(error => {
             console.log('erro imgur',error);
+            this.loading = false;
+            this.snackbar('Erro ao adicionar produto', 'error');
           });
         }
       },
