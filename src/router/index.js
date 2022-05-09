@@ -31,6 +31,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  store.dispatch('fetchLoading')
   store.dispatch('fetchAccessToken');
   if(store.state.token) {
     if(to.name === 'login' || to.name === 'register') {

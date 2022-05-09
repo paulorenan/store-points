@@ -60,6 +60,7 @@
             color="blue darken-1"
             text
             @click="dialog = false"
+            :loading="loading"
           >
             Close
           </v-btn>
@@ -67,6 +68,7 @@
             color="blue darken-1"
             text
             @click="addProduct"
+            :loading="loading"
           >
             Save
           </v-btn>
@@ -77,13 +79,16 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import axios from 'axios';
+
   export default {
     data: () => ({
       dialog: false,
       name: '',
       price: null,
       image: null,
+      loading: false,
       nameRules: [
         v => !!v || 'Nome é obrigatório',
       ],
@@ -94,23 +99,41 @@ import { mapActions } from 'vuex';
         v => !!v || 'Imagem é obrigatória',
       ],
     }),
+    computed: {
+      ...mapState([
+        'token'
+      ]),
+    },
     methods: {
       ...mapActions([
-        'createProduct',
+        'fetchProducts',
       ]),
       addProduct() {
         if(this.name && this.price && this.image) {
+          this.loading = true;
           const formData = new FormData();
           formData.append('image', this.image);
-          this.createProduct({
-            name: this.name,
-            price: this.price,
-            image: formData,
+          axios.defaults.headers.common['Authorization'] = `Client-ID ${process.env.VUE_APP_CLIENT_ID}`;
+          axios.post('https://api.imgur.com/3/image', formData).then(response => {
+            const image = response.data.data.link;
+            axios.defaults.headers.common['Authorization'] = this.token;
+            axios.post('https://store-points-back.herokuapp.com/api/products', {
+              name: this.name,
+              price: this.price,
+              image: image,
+            }).then(() => {
+              this.fetchProducts();
+              this.dialog = false;
+              this.name = '';
+              this.price = null;
+              this.image = null;
+              this.loading = false;
+            }).catch(error => {
+              console.log('erro api',error);
+            });
+          }).catch(error => {
+            console.log('erro imgur',error);
           });
-          this.dialog = false;
-          this.name = '';
-          this.price = 0;
-          this.image = null;
         }
       },
     },

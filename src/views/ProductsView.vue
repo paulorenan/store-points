@@ -2,8 +2,8 @@
   <v-app>
     <v-main class="grey lighten-2">
       <HeaderComp />
-      <v-row class="mt-13">
-        <v-col cols="12" v-if="admin" class="mt-8">
+      <v-row class="mt-16">
+        <v-col cols="12" v-if="admin" class="mt-5">
           <AddProduct />
         </v-col>
         <v-col
