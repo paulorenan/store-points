@@ -117,6 +117,7 @@ import axios from 'axios';
           this.loading = true;
           const formData = new FormData();
           formData.append('image', this.image);
+          console.log(process.env.VUE_APP_CLIENT_ID)
           axios.defaults.headers.common['Authorization'] = `Client-ID ${process.env.VUE_APP_CLIENT_ID}`;
           axios.post('https://api.imgur.com/3/image', formData).then(response => {
             const image = response.data.data.link;
