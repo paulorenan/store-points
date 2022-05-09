@@ -1,24 +1,28 @@
-# pointscontrol
 
-## Project setup
-```
-npm install
-```
+# Loja De Pontos
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Site de produtos e controle de pontos
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## WebSite
+[Loja de Pontos](https://lojadepontos.netlify.app/)
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Stack utilizada
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+**Front-end:** Vue, Vuetify, Vuex, Axios.
+
+**Back-end:** NodeJs, Sequelize, PostgreSQL, Express, Body-parser, Cors.
+
+[Repositorio do Back-End](https://github.com/paulorenan/store-points-back)
+
+
+## Screenshots
+
+![Tela Login](https://i.imgur.com/fgH6wH7.png)
+
+![Tela Cadastro](https://i.imgur.com/BT6CY4q.png)
+
+![Tela Produtos](https://i.imgur.com/eQnPJsb.png)
+
+![Tela Pedidos](https://i.imgur.com/GsBVdMW.png)
+
+![Tela Usuarios](https://i.imgur.com/AsWvyhb.png)
