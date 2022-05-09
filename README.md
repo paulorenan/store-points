@@ -17,11 +17,11 @@ Site de produtos e controle de pontos
 
 ## Screenshots
 
-![Tela Login](https://i.imgur.com/fgH6wH7.png)
+![Tela Login](https://i.imgur.com/ixPDVGJ.png)
 
-![Tela Cadastro](https://i.imgur.com/BT6CY4q.png)
+![Tela Cadastro](https://i.imgur.com/TeGTFJJ.png)
 
-![Tela Produtos](https://i.imgur.com/eQnPJsb.png)
+![Tela Produtos](https://i.imgur.com/mZ3SbfG.png)
 
 ![Tela Pedidos](https://i.imgur.com/GsBVdMW.png)
 
