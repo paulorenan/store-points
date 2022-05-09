@@ -35,12 +35,14 @@
           <v-btn
             color="error"
             @click="dialog = false"
+            :loading="loading"
           >
             Cancelar
           </v-btn>
           <v-btn
             color="primary"
-            @click="dialog = false"
+            @click="buyProduct"
+            :loading="loading"
           >
             Comprar
           </v-btn>
@@ -51,16 +53,43 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+import axios from 'axios';
   export default {
     data () {
       return {
         dialog: false,
+        loading: false,
       }
     },
     props: {
       product: Object,
       user: Object,
       money: Boolean,
+    },
+    computed: {
+      ...mapState([
+        'token',
+      ]),
+    },
+    methods: {
+      ...mapActions([
+        'fetchLoading',
+      ]),
+      buyProduct() {
+        this.loading = true;
+        axios.defaults.headers.common['Authorization'] = this.token;
+        axios.post('https://store-points-back.herokuapp.com/api/sales', {
+          productId: this.product.id,
+        }).then(() => {
+          this.fetchLoading();
+          this.dialog = false;
+          this.loading = false;
+        }).catch((err) => {
+          console.log(err);
+          this.loading = false;
+        });
+      },
     },
   }
 </script>
