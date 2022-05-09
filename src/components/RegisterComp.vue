@@ -12,9 +12,9 @@
                       <h1 class="text-center display-1">
                         Já é nosso cliente?
                       </h1>
-                      <h5 class="text-center">
+                      <h3 class="text-center">
                         Faça seu login para acessar suas compras
-                      </h5>
+                      </h3>
                     </v-card-text>
                     <div class="text-center mt-3 mb-2">
                       <v-btn rounded outlined="" dark @click="login">
@@ -27,9 +27,9 @@
                       <h1 class="text-center display-2 teal--text text--accent-3 mb-4">
                         Cadastro
                       </h1>
-                      <h4 class="text-center mlt-4">
+                      <h3 class="text-center mlt-4">
                         Por favor, insira seus dados para o cadastro
-                      </h4>
+                      </h3>
                       <v-form v-model="valid" @submit.prevent="register">
                         <v-text-field
                           label="Nome"
