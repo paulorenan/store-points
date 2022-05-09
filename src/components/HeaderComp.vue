@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    color="#42b983"
+    color="teal accent-3"
     fixed
   >
       <v-menu

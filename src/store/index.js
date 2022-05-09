@@ -104,24 +104,22 @@ export default new Vuex.Store({
       }).catch(() => {
         commit('updateProducts', []);
       })
-    },
+    },      
     fetchLoading({ commit }) {
-      if(this.state.load === false) {
-        const token = localStorage.getItem('token');
-        if(token) {
-          axios.defaults.headers.common['Authorization'] = token;
-          axios.get(`${URL}/load`).then(response => {
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
-            commit('updateToken', response.data.token);
-            commit('updateUser', response.data.user);
-            commit('loadSuccess');
-          }).catch(() => {
-            this.dispatch('logout');
-          });
-        } else {
+      const token = localStorage.getItem('token');
+      if(token) {
+        axios.defaults.headers.common['Authorization'] = token;
+        axios.get(`${URL}/load`).then(response => {
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          commit('updateToken', response.data.token);
+          commit('updateUser', response.data.user);
           commit('loadSuccess');
-        }
+        }).catch(() => {
+          this.dispatch('logout');
+        });
+      } else {
+        commit('loadSuccess');
       }
     },
   }

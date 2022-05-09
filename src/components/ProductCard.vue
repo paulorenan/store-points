@@ -19,20 +19,18 @@
       <v-icon>mdi-cash</v-icon>
     </v-card-text>
     <v-card-actions class="justify-center">
-      <v-btn
-        class="mx-auto mb-5"
-        color="primary"
-        :disabled="noMoney"
-      >
-        Comprar
-      </v-btn>
+      <BuyProduct :product="product" :user="user" :money="noMoney" />
     </v-card-actions>
   </v-card>          
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import BuyProduct from './BuyProduct.vue';
 export default {
+  components: {
+    BuyProduct,
+},
   props: {
     product: Object,
   },
