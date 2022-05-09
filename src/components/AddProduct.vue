@@ -16,8 +16,8 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-title>
-          <span class="text-h5">Adicionar Produto</span>
+        <v-card-title class="text-h5 teal accent-3">
+          <span>Adicionar Produto</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -57,20 +57,18 @@
         <v-card-actions>
           <v-spacer/>
           <v-btn
-            color="blue darken-1"
-            text
+            color="error"
             @click="dialog = false"
             :loading="loading"
           >
-            Close
+            Cancelar
           </v-btn>
           <v-btn
-            color="blue darken-1"
-            text
+            color="primary"
             @click="addProduct"
             :loading="loading"
           >
-            Save
+            Adicionar
           </v-btn>
         </v-card-actions>
       </v-card>

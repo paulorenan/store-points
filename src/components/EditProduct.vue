@@ -7,33 +7,34 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="primary"
-          class="mx-1"
+          class="mx-1 mb-3"          
           v-bind="attrs"
           v-on="on"
+          small
         >
           <v-icon>edit</v-icon>
         </v-btn>
       </template>
       <v-card>
         <v-card-title class="text-h5 teal accent-3">
-          Editar {{ user.name}}
+          Editar {{ product.name}}
         </v-card-title>
         <v-col>
-          <v-form class="mt-3" v-model="valid" @submit.prevent="updateUser">
-            <v-select
-              v-model="role"
-              :items="roles"
-              label="Função"
-              :disabled="isAdmin(user)"
-              dense
-              />
+          <v-form class="mt-3" v-model="valid" @submit.prevent="editProduct">
             <v-text-field
-              v-model="coins"
-              label="Pontos"
+              v-model="name"
+              label="Nome"
+              dense
+              class="mt-3"
+              :rules="nameRules"
+            />
+            <v-text-field
+              v-model="price"
+              label="Preço"
               dense
               class="mt-3"
               type="number"
-              :rules="coinsRules"
+              :rules="priceRules"
             />
           </v-form>
         </v-col>
@@ -49,8 +50,8 @@
           </v-btn>
           <v-btn
             color="primary"
-            @click="editUser"
             :loading="loading"
+            @click="editProduct"
           >
             Editar
           </v-btn>
@@ -63,30 +64,28 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import axios from 'axios';
-import store from '@/store';
 
   export default {
     data () {
       return {
         dialog: false,
-        roles: [
-          { text: 'Administrador', value: 'admin' },
-          { text: 'Cliente', value: 'user' },
-        ],
-        role: '',
-        coins: null,
         loading: false,
         valid: false,
-        coinsRules: [
-          v => !!v || 'Por favor, preencha o campo',
+        name: '',
+        price: null,
+        nameRules: [
+          v => !!v || 'Nome é obrigatório',
+          v => v.length <= 20 || 'Nome deve ter no máximo 20 caracteres',
+        ],
+        priceRules: [
+          v => !!v || 'Preço é obrigatório',
           v => /^\d+$/.test(v) || 'Por favor, preencha com um número',
         ],
       }
     },
     props: {
-      user: Object,
+      product: Object,
       snackbar: Function,
-      getUsers: Function,
     },
     computed: {
       ...mapState([
@@ -95,39 +94,31 @@ import store from '@/store';
     },
     methods: {
       ...mapActions([
-        'fetchLoading',
+        'fetchProducts',
       ]),
-      isAdmin(user) {
-        return user.role === 'admin';
-      },
-        editUser() {
-        if(this.valid) {
+      editProduct () {
+        if (this.valid) {
           this.loading = true;
           axios.defaults.headers.common['Authorization'] = this.token;
-          axios.put(`https://store-points-back.herokuapp.com/api/users/${this.user.id}`, {
-            role: this.role,
-            coins: this.coins,
+          axios.put(`https://store-points-back.herokuapp.com/api/products/${this.product.id}`, {
+            name: this.name,
+            price: this.price,
           }).then(() => {
-            this.getUsers();
-            if(store.state.user.id === this.user.id) {
-              this.fetchLoading();
-            }
+            this.fetchProducts();
             this.loading = false;
             this.dialog = false;
-            this.snackbar('Usuário editado com sucesso!', 'success');
+            this.snackbar('Produto editado com sucesso!', 'success');
           }).catch(() => {
             this.loading = false;
             this.dialog = false;
-            this.snackbar('Erro ao editar usuário!', 'error');
+            this.snackbar('Erro ao editar produto!', 'error');
           });
-        } else {
-          this.snackbar('Por favor, preencha todos os campos!', 'error');
         }
       },
     }, 
     mounted () {
-      this.coins = this.user.coins;
-      this.role = this.user.role;
+      this.name = this.product.name;
+      this.price = this.product.price;
     },
   }
 </script>

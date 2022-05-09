@@ -18,8 +18,10 @@
       </span>
       <v-icon>mdi-cash</v-icon>
     </v-card-text>
-    <v-card-actions class="justify-center">
+    <v-card-actions class="card-action">
+      <EditProduct :product="product" :snackbar="snackbar" v-if="isAdmin(user)" />
       <BuyProduct :product="product" :user="user" :money="noMoney" :snackbar="snackbar"/>
+      <DeleteProduct :product="product" :snackbar="snackbar" v-if="isAdmin(user)" />
     </v-card-actions>
   </v-card>          
 </template>
@@ -27,9 +29,13 @@
 <script>
 import { mapState } from 'vuex';
 import BuyProduct from './BuyProduct.vue';
+import EditProduct from './EditProduct.vue';
+import DeleteProduct from './DeleteProduct.vue';
 export default {
   components: {
     BuyProduct,
+    EditProduct,
+    DeleteProduct
 },
   props: {
     product: Object,
@@ -51,6 +57,9 @@ export default {
         this.noMoney = true;
       }
     },
+    isAdmin(user) {
+      return user.role === 'admin';
+    },
   },
   mounted() {
     this.hasMoney();
@@ -64,5 +73,9 @@ export default {
   max-width: 300px;
   width: 100%;
   padding-top: 20px;
+}
+.card-action {
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
