@@ -75,7 +75,7 @@ export default {
   padding-top: 20px;
 }
 .card-action {
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 </style>
