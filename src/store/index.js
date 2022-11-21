@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import router from '../router';
 
-const URL = 'https://store-points-back.herokuapp.com/api';
+// const URL = 'https://store-points-back.herokuapp.com/api';
+const URL = 'https://store-points-back.vercel.app/api'
 
 Vue.use(Vuex)
 
